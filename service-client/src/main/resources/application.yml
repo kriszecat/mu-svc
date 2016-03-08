@@ -1,0 +1,6 @@
+info:
+  version: 1.0-SNAPSHOT
+
+spring:
+  application:
+    name: service-client
