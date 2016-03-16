@@ -1,0 +1,23 @@
+<div ng-controller="ActivityRecordsCtrl">
+	<div class="lead">
+		<button type="button" class="btn btn-primary" ng-click="status.isCollapsed = !status.isCollapsed">Caractéristiques</button>
+		<hr>
+		<div uib-collapse="status.isCollapsed">
+			<div class="form-inline">
+				<div class="form-group">
+					<label for="userInput">Matricule</label>
+					<select id="userInput" ng-model="user.current" >
+						<option ng-repeat="u in user.list" value="u.id">{{u.eid}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="monthInput">Mois</label>
+					<input  id="monthInput" type="text" uib-datepicker-popup="MM/yyyy" ng-model="calendar.date" is-open="calendar.opened" datepicker-options="{minMode: 'month'}" datepicker-mode="'month'" close-text="Fermer"/>
+			</div>
+			<button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+		</div>
+		<!--pre>Selected date is: <em>{{calendar.date | date:'fullDate' }}</em></pre-->
+	</div>
+</div>
+
+</div>
