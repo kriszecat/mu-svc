@@ -1,0 +1,29 @@
+<div class="panel-body">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Activité</th>
+        <th>Date</th>
+        <th class="text-right">Durée</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="record in activityRecords">
+        <td>{{record.activity.name}}</td>
+        <td>{{record.date | date}}</td>
+        <td class="text-right">{{record.duration}}</td>
+        <td class="text-center">
+          <button class="btn btn-xs btn-primary" ng-click="deleteActivityRecord(record)">
+            Supprimer</button>
+          <button class="btn btn-xs btn-primary" ng-click="editOrCreateActivityRecord(record)">
+            Editer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <button class="btn btn-primary" ng-click="listActivityRecords()">Rafraîchir</button>
+    <button class="btn btn-primary" ng-click="editOrCreateActivityRecords()">Nouveau</button>
+  </div>
+</div>

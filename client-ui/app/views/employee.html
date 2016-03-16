@@ -1,0 +1,30 @@
+<div ng-controller="EmployeeCtrl">
+  <div class="page-header"/>
+  <div class="container">
+    <div class="page-header">
+      <h2>Caractéristiques employé</h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="lead">
+      <button class="btn btn-primary" ng-click="props.isCollapsed = !props.isCollapsed">Caractéristiques</button>
+      <a class="btn btn-primary" ng-click="$root.employeeUri = baseUrl + 'employees/1'">Employé par défaut</a>
+      <hr>
+      <div uib-collapse="props.isCollapsed">
+        <div class="form-inline">
+          <div class="form-group">
+            <label for="userInput">Matricule</label>
+            <select ng-options="employee._links.employee.href as employee.employeeID for employee in employees" ng-model="$root.employeeUri">
+              <option style="display:none" value="">Employé ...</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="lead col-md-12">
+      <p><a href="{{$root.employeeUri}}" target="_blank">{{$root.employeeUri}}</a></p>
+    </div>
+  </div>
+</div>

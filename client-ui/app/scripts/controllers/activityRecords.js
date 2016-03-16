@@ -8,26 +8,12 @@
  * Controller of the activityApp
  */
 angular.module('activityApp')
-  .controller('ActivityRecordsCtrl', function($scope) {
+  .controller('ActivityRecordsCtrl', function(
+    $scope, $rootScope, $http, SpringDataRestAdapter) {
 
-    $scope.status = {
-      isOpen: false
-    };
+    $scope.displayMode = "view";
 
-    $scope.user = {
-      current: null,
-      list: [{
-        'id': 1,
-        'eid': '130001'
-      }, {
-        'id': 2,
-        'eid': '130002'
-      }, {
-        'id': 3,
-        'eid': '130003'
-      }]
-    };
-
+    // calendar
     $scope.calendar = {
       date: null,
       opened: false
@@ -43,5 +29,39 @@ angular.module('activityApp')
     $scope.open = function() {
       $scope.calendar.opened = true;
     };
+    // end-calendar
 
+    // activityRecords
+    //http: //localhost:8080/employees/:id/activityRecords?projection=inlineActivity
+    $scope.listActivityRecords = function() {
+      var httpPromise = $http.get($rootScope.employeeUri);
+      SpringDataRestAdapter.process(httpPromise)
+        .then(function(processedResponse) {
+          // employee
+          $scope.employee = processedResponse;
+          $scope.ejson = angular.toJson($scope.employee, true);
+          // end-employee
+
+          var activityRecordsResource = {
+            "name": "activityRecords",
+            "parameters": {
+              "projection": "inlineActivity"
+            }
+          };
+          processedResponse._resources(activityRecordsResource).get(
+            function(response) {
+              SpringDataRestAdapter.process(response)
+                .then(function(processedResponse) {
+                  $scope.activityRecords = processedResponse._embeddedItems;
+                })
+            });
+        });
+    }
+
+    $scope.deleteActivityRecord = function(product) {}
+
+    $scope.editOrCreateActivityRecord = function(product) {}
+      // end-activityRecords
+
+    $scope.listActivityRecords();
   });

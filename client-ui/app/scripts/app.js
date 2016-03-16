@@ -10,15 +10,15 @@
  */
 angular
   .module('activityApp', [
-    'ngAnimate',
-    'ngCookies',
+    'hljs',
     'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap'
+    'spring-data-rest',
+    'ui.bootstrap',
   ])
-  .constant("baseUrl", "http://localhost:8080/products/")
+  .constant("baseUrl", "http://localhost:8080/")
   .config(function($routeProvider) {
     $routeProvider
       .when('/', {
@@ -31,10 +31,15 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/user/records', {
+      .when('/employee/records', {
         templateUrl: 'views/activity-records.html',
         controller: 'ActivityRecordsCtrl',
         controllerAs: 'activityRecords'
+      })
+      .when('/employee/props', {
+        templateUrl: 'views/employee.html',
+        controller: 'EmployeeCtrl',
+        controllerAs: 'employee'
       })
       .when('/test', {
         templateUrl: 'views/test.html',
