@@ -14,7 +14,7 @@ public class Project extends AbstractEntity {
     @Column(nullable = false)
     private Date startDate;
 
-    @Basic(fetch= FetchType.LAZY)
+    @Basic(fetch = FetchType.LAZY)
     @Column(nullable = true)
     private Date endDate;
 

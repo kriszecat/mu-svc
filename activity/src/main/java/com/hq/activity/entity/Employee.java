@@ -12,7 +12,7 @@ public class Employee extends AbstractEntity {
     @Column(name = "EID", nullable = false)
     private String employeeID;
 
-    @OneToMany(mappedBy="employee")
+    @OneToMany(mappedBy = "employee")
     private Collection<ActivityRecord> activityRecords;
 
     public String getEmployeeID() {

@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 public interface ProjectionActivityRecord {
 
     Timestamp getDate();
+
     Double getDuration();
+
     Activity getActivity();
 }
