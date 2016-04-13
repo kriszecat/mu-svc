@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  web-ui:
+    image: 192.168.99.101:5000/hq/client-ui
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+    environment:
+      - "constraint:capacity==ui"
+
+  activity-service:
+    image: 192.168.99.101:5000/hq/activity
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    environment:
+      - "constraint:capacity==activity-service"
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
