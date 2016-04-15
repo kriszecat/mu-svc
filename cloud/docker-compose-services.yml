@@ -2,25 +2,54 @@ version: '2'
 
 services:
   web-ui:
-    image: 192.168.99.101:5000/hq/client-ui
-    ports:
-      - "80:80"
+    image: ${ENV_DOCKER_REGISTRY_HOST}:5000/hq/client-ui
     networks:
       - frontend
+    ports:
+      - "80:80"
     environment:
       - "constraint:capacity==ui"
 
-  activity-service:
-    image: 192.168.99.101:5000/hq/activity
-    ports:
-      - "8080:8080"
+  discovery:
+    image: ${ENV_DOCKER_REGISTRY_HOST}:5000/hq/discovery
+    hostname: discovery
     networks:
       - backend
     environment:
+      - "constraint:capacity!=activity-service"
+    ports:
+      - "8761:8761"
+
+  admin:
+    image: ${ENV_DOCKER_REGISTRY_HOST}:5000/hq/admin
+    hostname: admin
+    networks:
+      - backend
+    environment:
+      - "constraint:capacity!=activity-service"
+    ports:
+      - "8081:8081"
+
+  activity:
+    image: ${ENV_DOCKER_REGISTRY_HOST}:5000/hq/activity
+    hostname: activity
+    networks:
+      - backend
+    ports:
+      - "8080:8080"
+    environment:
       - "constraint:capacity==activity-service"
+#  dns:
+#    image: phensley/docker-dns
+#    container_name: dns
+#    domainname: horoquartz.poc
+#    networks:
+#      - backend
+#    volumes:
+#      - "192.168.99.106/docker.sock"
 
 networks:
   frontend:
-    driver: bridge
+    driver: overlay
   backend:
-    driver: bridge
+    driver: overlay

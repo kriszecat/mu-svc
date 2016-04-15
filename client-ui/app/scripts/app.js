@@ -18,7 +18,7 @@ angular
     'spring-data-rest',
     'ui.bootstrap',
   ])
-  .constant("baseUrl", "http://activity-service:8080/")
+  .constant("baseUrl", "http://gateway.horoquartz.poc:8080/")
   .config(function($routeProvider) {
     $routeProvider
       .when('/', {
