@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: activity
+  cloud:
+    config:
+      enabled: false

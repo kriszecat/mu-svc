@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: zuulserver
+  cloud:
+    config:
+      enabled: false

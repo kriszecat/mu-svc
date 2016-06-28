@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  discovery:
+    image: hq/discovery
+    hostname: discovery
+    ports:
+      - "8761:8761"
+
+  gateway:
+    image: hq/gateway
+    hostname: gateway
+    ports:
+      - "8765:8765"
+
+  postgres:
+    image: postgres:9.3
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=horoquartz
+      - POSTGRES_PASSWORD=horoquartz
+
+  activity:
+    image: hq/activity
+    hostname: activity
+    ports:
+      - "8081:8081"
+
+  etemptation:
+    image: hq/etemptation
+    hostname: etemptation
+    ports:
+      - "8080:8080"
+    
+  web-ui:
+    image: hq/client-ui
+    hostname: web-ui
+    ports:
+      - "80:80"

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.hq.poc</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <artifactId>etemptation</artifactId>
+    <packaging>pom</packaging>
+
+    <name>etemptation</name>
+    <description>eTemptation module</description>
+
+    <properties>
+        <!-- point to docker file and resources -->
+        <docker.name>hq/${project.artifactId}</docker.name>
+        <docker.tags.1>latest</docker.tags.1>
+        <docker.tags.2>${project.version}</docker.tags.2>
+        <docker.dockerFileDir>build</docker.dockerFileDir>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.15.7</version>
+                        <executions>
+                            <execution>
+                                <id>docker-remove</id>
+                                <goals>
+                                    <goal>remove</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>docker-build</id>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <!--execution>
+                                <id>docker-push</id>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
+                                <phase>install</phase>
+                            </execution-->
+                        </executions>
+                        <configuration>
+                            <useColor>true</useColor>
+                            <pushRegistry>${ENV_DOCKER_REGISTRY_HOST}:5000</pushRegistry>
+                            <images>
+                                <image>
+                                    <external>
+                                        <type>props</type>
+                                        <prefix>docker</prefix>
+                                    </external>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

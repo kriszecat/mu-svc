@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,10 +12,25 @@
     <properties>
         <spring.cloud.version>Brixton.M5</spring.cloud.version>
         <spring.boot.version>1.3.3.RELEASE</spring.boot.version>
-        <spring.admin.version>1.3.2</spring.admin.version>
-        <!--   -->
+        <spring.admin.version>1.3.3</spring.admin.version>
+
+        <!-- build props -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <server.port>8080</server.port>
+
+        <!-- docker props -->
+        <docker.name>hq/${project.artifactId}</docker.name>
+        <docker.from>java:8-jdk</docker.from>
+        <docker.tags.1>latest</docker.tags.1>
+        <docker.tags.2>${project.version}</docker.tags.2>
+        <docker.ports.1>${server.port}</docker.ports.1>
+        <docker.entrypoint>java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=cloud -jar
+            /opt/service/${project.build.finalName}.${project.packaging}
+        </docker.entrypoint>
+        <docker.assembly.mode>dir</docker.assembly.mode>
+        <docker.assembly.baseDir>/opt/service</docker.assembly.baseDir>
+        <docker.assembly.descriptorRef>artifact</docker.assembly.descriptorRef>
     </properties>
 
     <repositories>
@@ -26,7 +41,32 @@
         </repository>
     </repositories>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -47,7 +87,7 @@
 
     <profiles>
         <profile>
-            <id>cloud</id>
+            <id>docker</id>
             <build>
                 <plugins>
                     <plugin>
@@ -69,27 +109,38 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.14.2</version>
+                        <version>0.15.7</version>
                         <executions>
+                            <execution>
+                                <id>docker-remove</id>
+                                <goals>
+                                    <goal>remove</goal>
+                                </goals>
+                            </execution>
                             <execution>
                                 <id>docker-build</id>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
-                            <execution>
+                            <!--execution>
                                 <id>docker-push</id>
                                 <goals>
                                     <goal>push</goal>
                                 </goals>
                                 <phase>install</phase>
-                            </execution>
+                            </execution-->
                         </executions>
                         <configuration>
                             <useColor>true</useColor>
                             <pushRegistry>${ENV_DOCKER_REGISTRY_HOST}:5000</pushRegistry>
                             <images>
                                 <image>
+                                    <external>
+                                        <type>props</type>
+                                        <prefix>docker</prefix>
+                                    </external>
+                                    <!--
                                     <name>hq/${project.artifactId}</name>
                                     <build>
                                         <from>java:8-jdk</from>
@@ -98,7 +149,7 @@
                                             <tag>${project.version}</tag>
                                         </tags>
                                         <ports>
-                                            <port>8080</port>
+                                            <port>${server.port}</port>
                                         </ports>
                                         <entryPoint>java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=cloud -jar /opt/service/${project.build.finalName}.${project.packaging}</entryPoint>
                                         <assembly>
@@ -107,6 +158,7 @@
                                             <descriptorRef>artifact</descriptorRef>
                                         </assembly>
                                     </build>
+                                    -->
                                 </image>
                             </images>
                         </configuration>

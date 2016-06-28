@@ -16,17 +16,9 @@
     <name>activity</name>
     <description>Activity service module</description>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <properties>
+        <server.port>8081</server.port>
+    </properties>
 
     <dependencies>
         <dependency>

@@ -1,4 +1,4 @@
-http://patorjk.com/software/taag/
+http://patorjk.com/software/taag/ graceful
 
 Appli
 =====
@@ -19,8 +19,15 @@ Docker
 https://blog.docker.com/
 https://blog.docker.com/2016/02/docker-1-10/
 
+
+Cloud Raspberry
+===============
+http://rpi-cloud.com/
+
+
 Cloud PaaS
 ==========
+https://blog.heroku.com/archives/2016/3/2/using_netflix_zuul_to_proxy_your_microservices
 http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#cloud-deployment-boxfuse
 http://kubernetes.io/v1.1/docs/whatisk8s.html
 http://docs.deis.io/en/latest/using_deis/using-dockerfiles/#using-dockerfiles

@@ -8,13 +8,18 @@
   <div class="container">
     <div class="lead">
       <button class="btn btn-primary" ng-click="props.isCollapsed = !props.isCollapsed">Caractéristiques</button>
-      <a class="btn btn-primary" ng-click="$root.employeeUri = baseUrl + 'employees/1'">Employé par défaut</a>
+      <!--a class="btn btn-primary" ng-click="employee.uri = apiUrl + 'alias/000002'">Employé par défaut</a-->
+      <a class="btn btn-primary" ng-click="selectEmployee('000002')">Employé par défaut</a>
       <hr>
       <div uib-collapse="props.isCollapsed">
         <div class="form-inline">
           <div class="form-group">
-            <label for="userInput">Matricule</label>
-            <select ng-options="employee._links.employee.href as employee.employeeID for employee in employees" ng-model="$root.employeeUri">
+            <label>Matricule</label>
+            <select id="employees-list"
+                    ng-options="apiUrl + 'alias/' + e.alias as e.nompre for e in employees"
+                    ng-model="employee.uri"
+                    ng-change="showEmployee()">
+              <!--  +  -->
               <option style="display:none" value="">Employé ...</option>
             </select>
           </div>
@@ -23,8 +28,31 @@
     </div>
   </div>
   <div class="container">
-    <div class="lead col-md-12">
-      <p><a href="{{$root.employeeUri}}" target="_blank">{{$root.employeeUri}}</a></p>
-    </div>
+    <form>
+      <div class="form-group row">
+        <div class="lead col-md-12">
+          <p><a href="{{employee.uri}}" ng-click target="_blank">{{employee.uri}}</a></p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="name" class="col-md-2 form-control-label">Nom</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" readonly=true id="name" placeholder="Nom" value="{{employee.selected.nom}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="firstname" class="col-md-2 form-control-label">Prénom</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" readonly=true id="firstname" placeholder="Prénom" value="{{employee.selected.prenom}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="alias" class="col-md-2 form-control-label">Matricule</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" readonly=true id="alias" placeholder="Matricule" value="{{employee.selected.alias}}">
+        </div>
+      </div>
+     </div>
+    </form>
   </div>
 </div>

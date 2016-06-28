@@ -1,0 +1,42 @@
+info:
+  component: Zuul Server
+  
+server:
+  port: ${server.port}
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+logging:
+  level:
+    ROOT: INFO
+#    org.springframework.web: DEBUG
+    org.springframework.web: INFO
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    activity:
+      path: /activity/**
+      url: http://localhost:8081/
+    etemptation:
+      path: /hr/**
+      url: http://localhost:8080/hq-web/service
+
+---
+spring:
+  profiles: cloud
+
+zuul:
+  routes:
+    activity:
+      path: /activity/**
+      url: http://${docker-machine.ip}:8081
+    etemptation:
+      path: /hr/**
+      url: http://${docker-machine.ip}:8080/hq-web/service

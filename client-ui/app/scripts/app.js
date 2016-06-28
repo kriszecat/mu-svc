@@ -18,7 +18,8 @@ angular
     'spring-data-rest',
     'ui.bootstrap',
   ])
-  .constant("baseUrl", "http://gateway.horoquartz.poc:8080/")
+//  .constant("baseUrl", window.location.protocol + '://' + window.location.host + '/')
+  .constant("baseUrl", 'http://horoquartz.poc:8765/')
   .config(function($routeProvider) {
     $routeProvider
       .when('/', {

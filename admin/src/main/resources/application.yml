@@ -1,12 +1,5 @@
 server:
-  port: 8081
-
-spring:
-  application:
-    name: administration-console
-  cloud:
-    config:
-      enabled: false
+  port: ${server.port}
 
 eureka:
   instance:
@@ -21,9 +14,6 @@ eureka:
 ---
 spring:
   profiles: cloud
-  cloud:
-    config:
-      enabled: true
 
 eureka:
   instance:

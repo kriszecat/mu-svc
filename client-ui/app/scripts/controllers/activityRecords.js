@@ -9,9 +9,10 @@
  */
 angular.module('activityApp')
   .controller('ActivityRecordsCtrl', function(
-    $scope, $rootScope, $http, SpringDataRestAdapter) {
+    $scope, $rootScope, $http, baseUrl, SpringDataRestAdapter) {
 
     $scope.displayMode = "view";
+    $scope.apiUrl = baseUrl + 'activity/employees/';
 
     // calendar
     $scope.calendar = {
@@ -34,8 +35,9 @@ angular.module('activityApp')
     // activityRecords
     //http: //localhost:8080/employees/:id/activityRecords?projection=inlineActivity
     $scope.listActivityRecords = function() {
-      var httpPromise = $http.get($rootScope.employeeUri);
-      SpringDataRestAdapter.process(httpPromise)
+      //var employeeUrl = $scope.apiUrl + $rootScope.employeeAlias;
+      var employeeUrl = $scope.apiUrl + '1';
+      SpringDataRestAdapter.process($http.get(employeeUrl))
         .then(function(processedResponse) {
           // employee
           $scope.employee = processedResponse;
@@ -61,7 +63,7 @@ angular.module('activityApp')
     $scope.deleteActivityRecord = function(product) {}
 
     $scope.editOrCreateActivityRecord = function(product) {}
-      // end-activityRecords
+    // end-activityRecords
 
     $scope.listActivityRecords();
   });

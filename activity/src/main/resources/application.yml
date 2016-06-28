@@ -1,12 +1,7 @@
 server:
-  port: 8080
+  port: ${server.port}
 
 spring:
-  application:
-    name: activity
-  cloud:
-    config:
-      enabled: false
   jpa:
     properties:
       hibernate:
@@ -19,6 +14,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 5
     hostname: localhost
   client:
+    registryFetchIntervalSeconds: 5
     healthcheck:
       enabled: true
     serviceUrl:
@@ -27,9 +23,6 @@ eureka:
 ---
 spring:
   profiles: cloud
-  cloud:
-    config:
-      enabled: true
 
 eureka:
   instance:
